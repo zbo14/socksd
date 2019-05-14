@@ -3,6 +3,12 @@
 CMD=$1
 
 case $CMD in
+  add-key)
+    PUBKEY=$2
+
+    docker exec socksd sh -c "echo \"$PUBKEY\" >> /home/socksproxy/.ssh/authorized_keys"
+    ;;
+
   build)
     docker build --no-cache -t socksd .
     ;;
@@ -33,9 +39,10 @@ case $CMD in
     echo $'Usage: socksd <command> ARGS
 
 Commands:
-  build    Build the daemon image
-  init     Setup directory structure and daemon keys
-  start    Start the daemon
-  stop     Stop the daemon'
+  add-key  PUBKEY   Add a proxy public key to the authorized_keys file
+  build             Build the daemon image
+  init              Setup directory structure and daemon keys
+  start             Start the daemon
+  stop              Stop the daemon'
     ;;
 esac
