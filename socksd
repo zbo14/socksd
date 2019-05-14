@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+CMD=$1
+
+case $CMD in
+  build)
+    docker build --no-cache -t socksd .
+    ;;
+
+  init)
+    mkdir -p {home{,/socksproxy{,/.ssh}},root{,/.ssh}}
+    touch home/socksproxy/.ssh/authorized_keys
+    ssh-keygen -t ed25519 -f root/.ssh/id_ed25519 -N ''
+    ;;
+
+  start)
+    docker run \
+      -d \
+      --name socksd \
+      -p 17896:17896 \
+      -v "$(pwd)"/home/socksproxy/.ssh:/home/socksproxy/.ssh \
+      -v "$(pwd)"/root/.ssh:/root/.ssh:ro \
+      socksd
+
+    docker exec -it socksd passwd socksproxy
+    ;;
+
+  stop)
+    docker rm -fv socksd
+    ;;
+
+  *)
+    echo $'Usage: socksd <command> ARGS
+
+Commands:
+  build    Build the daemon image
+  init     Setup directory structure and daemon keys
+  start    Start the daemon
+  stop     Stop the daemon'
+    ;;
+esac

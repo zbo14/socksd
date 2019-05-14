@@ -1,0 +1,8 @@
+AllowTcpForwarding local
+AllowUsers socksproxy
+HostKey /root/.ssh/id_ed25519
+PasswordAuthentication no
+PermitRootLogin no
+Port 17896
+Protocol 2
+PubkeyAuthentication yes
