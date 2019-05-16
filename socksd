@@ -8,7 +8,7 @@ case $1 in
       exit 0
     fi
 
-    echo "$2" >> /home/socksproxy/.ssh/authorized_keys
+    echo "$2" >> home/socksproxy/.ssh/authorized_keys
     ;;
 
   build)
