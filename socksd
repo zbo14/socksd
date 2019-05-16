@@ -1,12 +1,14 @@
-#!/usr/bin/env bash
+#!/bin/bash -e
 
-CMD=$1
-
-case $CMD in
+case $1 in
   add-key)
-    PUBKEY=$2
+    if [[ $# != 2 ]]
+    then
+      echo "Usage: socksd <add-key> PUBKEY"
+      exit 0
+    fi
 
-    docker exec socksd sh -c "echo \"$PUBKEY\" >> /home/socksproxy/.ssh/authorized_keys"
+    echo "$2" >> /home/socksproxy/.ssh/authorized_keys
     ;;
 
   build)
@@ -39,10 +41,10 @@ case $CMD in
     echo $'Usage: socksd <command> ARGS
 
 Commands:
-  add-key  PUBKEY   Add a proxy public key to the authorized_keys file
-  build             Build the daemon image
-  init              Setup directory structure and daemon keys
-  start             Start the daemon
-  stop              Stop the daemon'
+  add-key  PUBKEY  Add a public key to the authorized_keys file
+  build            Build the Docker image
+  init             Setup directory structure and SSH keys
+  start            Start a Docker container running the daemon
+  stop             Remove the Docker container and its volumes'
     ;;
 esac
