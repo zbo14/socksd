@@ -6,7 +6,7 @@ A Dockerized SSH daemon for [socksproxy](https://github.com/zbo14/socksproxy).
 
 Make sure you have [Docker](https://docs.docker.com/install/) installed.
 
-Then `git clone` the repository, `cd` into it, and `sh install.sh`.
+Then `git clone` the repository and `sh /path/to/socksd/install.sh`.
 
 ## Usage
 
@@ -49,3 +49,11 @@ The proxy should then be able to authenticate with the daemon.
 `socksd stop`
 
 Remove the Docker container and its volumes.
+
+## Contributing
+
+Please do!
+
+If you find a bug or think of an enhancement, [open an issue](https://github.com/zbo14/socksd/issues/new). Then, if you feel so inclined, [create a pull request](https://github.com/zbo14/socksd/compare/develop...) addressing the issue. You should push your changes to a feature branch and request merge to `develop`.
+
+You don't have to open an issue before a pull request, but it facilitates discussion and gives you a chance to receive feedback on approach/design before diving into implementation.
