@@ -5,4 +5,4 @@ COPY . /
 RUN apk add --no-cache --update --upgrade openssh && \
     adduser -D socksproxy
 
-ENTRYPOINT sh entrypoint
+ENTRYPOINT sh entrypoint.sh
