@@ -36,6 +36,7 @@ case $1 in
       -d \
       --name socksd \
       -p $PORT:$PORT \
+      --restart=always \
       -v $DIR/etc/ssh:/etc/ssh:ro \
       -v $DIR/home/socksproxy/.ssh:/home/socksproxy/.ssh \
       -v $DIR/root/.ssh:/root/.ssh:ro \
