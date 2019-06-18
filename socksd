@@ -8,7 +8,7 @@ case $1 in
     if [[ $# != 2 ]]
     then
       echo "Usage: socksd <add-key> PUBKEY"
-      exit 0
+      exit
     fi
 
     echo $2 >> home/socksproxy/.ssh/authorized_keys

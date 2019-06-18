@@ -1,6 +1,6 @@
 #!/bin/sh
 
-chmod 700 home/socksproxy/.ssh
-chmod 600 home/socksproxy/.ssh/authorized_keys
+chmod 700 /home/socksproxy/.ssh
+chmod 600 /home/socksproxy/.ssh/authorized_keys
 
-/usr/sbin/sshd -4D
+/usr/sbin/sshd -4d
