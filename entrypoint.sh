@@ -5,7 +5,6 @@
   -h /root/.ssh/id_ed25519 \
   -o AllowTcpForwarding=local \
   -o AllowUsers=socksproxy \
-  -o AuthorizedKeysFile=/root/.ssh/authorized_keys \
   -o PasswordAuthentication=no \
   -o PermitRootLogin=no \
   -o Protocol=2 \
