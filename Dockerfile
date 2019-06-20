@@ -1,8 +1,8 @@
-FROM alpine:3.9
+FROM alpine:latest
 
 COPY . /
 
 RUN apk add --no-cache --update --upgrade openssh && \
     adduser -D socksproxy
 
-ENTRYPOINT sh entrypoint.sh
+ENTRYPOINT PORT=$PORT sh entrypoint.sh

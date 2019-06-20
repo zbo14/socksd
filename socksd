@@ -5,13 +5,13 @@ cd $DIR
 
 case $1 in
   add-proxy)
-    if [[ $# != 2 ]]
+    if [[ -z $PUBKEY ]]
     then
-      echo "Usage: socksd <add-proxy> PUBKEY"
+      echo "Usage: PUBKEY=\"\" socksd <add-proxy>"
       exit
     fi
 
-    echo $2 >> home/socksproxy/.ssh/authorized_keys
+    echo $PUBKEY >> root/.ssh/authorized_keys
     ;;
 
   build)
@@ -23,36 +23,38 @@ case $1 in
     ;;
 
   get-proxies)
-    cat home/socksproxy/.ssh/authorized_keys
+    cat root/.ssh/authorized_keys
     ;;
 
   init)
-    mkdir -p {etc{,/ssh},home{,/socksproxy{,/.ssh}},root{,/.ssh}}
-    cp sshd_config etc/ssh
-    touch home/socksproxy/.ssh/authorized_keys
+    mkdir -p root{,/.ssh}
+    touch root/.ssh/authorized_keys
     ssh-keygen -t ed25519 -f root/.ssh/id_ed25519 -N ''
     ;;
 
   rm-proxy)
-    if [[ $# != 2 ]]
+    if [[ -z $USER ]]
     then
-      echo "Usage: socksd <rm-proxy> PUBKEY"
+      echo "Usage: USER=\"\" socksd <rm-proxy>"
       exit
     fi
 
-    grep -v $2 home/socksproxy/.ssh/authorized_keys > home/socksproxy/.ssh/authorized_keys
+    grep -v $USER root/.ssh/authorized_keys > root/.ssh/authorized_keys
     ;;
 
   start)
-    PORT=$(grep 'Port' etc/ssh/sshd_config | cut -d ' ' -f2)
+    if [[ -z $PORT ]]
+    then
+      echo "Usage: PORT=\"\" socksd <start>"
+      exit
+    fi
 
     docker run \
       -d \
+      -e PORT=$PORT \
       --name socksd \
       -p $PORT:$PORT \
       --restart=always \
-      -v $DIR/etc/ssh:/etc/ssh:ro \
-      -v $DIR/home/socksproxy/.ssh:/home/socksproxy/.ssh \
       -v $DIR/root/.ssh:/root/.ssh:ro \
       socksd
 
@@ -67,13 +69,13 @@ case $1 in
     echo $'Usage: socksd <command> ARGS
 
 Commands:
-  add-proxy   PUBKEY  Add a proxy\'s public key to the authorized_keys file
-  build               Build the Docker image
-  get-key             Print the daemon\'s public key
-  get-proxies         Print the authorized_keys file
-  init                Setup directory structure and SSH keys
-  rm-proxy    PUBKEY  Remove a proxy\'s public key from the authorized_keys file
-  start               Start a Docker container running the daemon
-  stop                Stop the Docker container, remove it and the volumes'
+  add-proxy     Add a proxy\'s public key to the authorized_keys file
+  build         Build the Docker image
+  get-key       Print the daemon\'s public key
+  get-proxies   Print the authorized_keys file
+  init          Setup directory structure and SSH keys
+  rm-proxy      Remove a proxy\'s public key from the authorized_keys file
+  start         Start a Docker container running the daemon
+  stop          Stop the Docker container, remove it and the volumes'
     ;;
 esac
