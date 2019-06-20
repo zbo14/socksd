@@ -12,39 +12,55 @@ Then `git clone` the repository and `sh /path/to/socksd/install.sh`.
 
 ### Build
 
-`socksd build`
+`$ socksd build`
 
 Build the Docker image for the daemon.
 
 ### Initialize
 
-`socksd init`
+`$ socksd init`
 
-Create directories with the SSH keys, daemon config, and `authorized_keys` file.
+Create directories with the SSH keys and `authorized_keys` file.
 
-The daemon config is copied from the reference file `./sshd_config`. Once initialized, you can make config changes in `./etc/ssh/sshd_config` (e.g. change the `Port`).
-
-The directories will be mounted as volumes inside the container when the daemon starts.
+The directories will be mounted as volumes in the container when it starts.
 
 This command only needs to run once.
 
 ### Start
 
-`socksd start`
+`$ PORT= socksd start`
 
-Start a Docker container running the daemon on the `Port` specified in `./etc/ssh/sshd_config`.
+Start a Docker container running the daemon on the specified port.
 
 You will be prompted to enter a password for user `socksproxy`.
 
 **Note:** proxies will still authenticate with their public keys.
 
-### Add public key
+### Get the public key
 
-`socksd add-key PUBKEY`
+`$ socksd get-key`
+
+Print the daemon's public key.
+
+### Add a proxy
+
+`$ PUBKEY= socksd add-proxy`
 
 Add a proxy's public key to the aforementioned `authorized_keys` file.
 
-The proxy should then be able to authenticate with the daemon.
+### Get proxies
+
+`$ socksd get-proxies`
+
+Print the contents of the `authorized_keys` file.
+
+### Remove a proxy
+
+`$ PUBKEY= socksd rm-proxy`
+
+Remove a proxy's public key from the `authorized_keys` file.
+
+**Note:** `PUBKEY` doesn't have to be the fully-qualified public key (e.g. it can just be the username).
 
 ### Stop
 

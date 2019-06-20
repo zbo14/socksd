@@ -7,7 +7,7 @@ case $1 in
   add-proxy)
     if [[ -z $PUBKEY ]]
     then
-      echo "Usage: PUBKEY=\"\" socksd <add-proxy>"
+      echo "Usage: PUBKEY= socksd <add-proxy>"
       exit
     fi
 
@@ -33,25 +33,26 @@ case $1 in
     ;;
 
   rm-proxy)
-    if [[ -z $USER ]]
+    if [[ -z $PUBKEY ]]
     then
-      echo "Usage: USER=\"\" socksd <rm-proxy>"
+      echo "Usage: PUBKEY= socksd <rm-proxy>"
       exit
     fi
 
-    grep -v $USER home/socksproxy/.ssh/authorized_keys > home/socksproxy/.ssh/authorized_keys
+    grep -v $PUBKEY home/socksproxy/.ssh/authorized_keys > home/socksproxy/.ssh/authorized_keys
     ;;
 
   start)
     if [[ -z $PORT ]]
     then
-      echo "Usage: PORT=\"\" socksd <start>"
+      echo "Usage: PORT= socksd <start>"
       exit
     fi
 
     docker run \
       -d \
       -e PORT=$PORT \
+      --init \
       --name socksd \
       -p $PORT:$PORT \
       --restart=always \
@@ -67,16 +68,16 @@ case $1 in
     ;;
 
   *)
-    echo $'Usage: [ARG1="" ARG2="" ...] socksd <command>
+    echo $'Usage: [ARG1= ARG2= ...] socksd <command>
 
 Commands:
   add-proxy     Add a proxy\'s public key to the authorized_keys file
   build         Build the Docker image
   get-key       Print the daemon\'s public key
-  get-proxies   Print the authorized_keys file
-  init          Setup directory structure and SSH keys
+  get-proxies   Print the contents of the authorized_keys file
+  init          Create directories with the SSH keys and authorized_keys file
   rm-proxy      Remove a proxy\'s public key from the authorized_keys file
   start         Start a Docker container running the daemon
-  stop          Stop the Docker container, remove it and the volumes'
+  stop          Remove the Docker container and its volumes'
     ;;
 esac
