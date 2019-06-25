@@ -39,7 +39,8 @@ case $1 in
       exit
     fi
 
-    grep -v $PUBKEY home/socksproxy/.ssh/authorized_keys > home/socksproxy/.ssh/authorized_keys
+    grep -v $PUBKEY home/socksproxy/.ssh/authorized_keys > other_keys
+    mv other_keys home/socksproxy/.ssh/authorized_keys
     ;;
 
   start)
