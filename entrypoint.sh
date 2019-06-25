@@ -1,5 +1,8 @@
 #!/bin/sh
 
+chmod 700 /home/socksproxy/.ssh
+chmod 600 /home/socksproxy/.ssh/authorized_keys
+
 /usr/sbin/sshd \
   -4De \
   -h /root/.ssh/id_ed25519 \
