@@ -8,6 +8,7 @@ chmod 600 /home/socksproxy/.ssh/authorized_keys
   -h /root/.ssh/id_ed25519 \
   -o AllowTcpForwarding=local \
   -o AllowUsers=socksproxy \
+  -o ClientAliveInterval=15 \
   -o PasswordAuthentication=no \
   -o PermitRootLogin=no \
   -o Protocol=2 \
