@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash -e
 
 /usr/sbin/sshd \
   -4De \
-  -h /root/.ssh/id_ed25519 \
+  -h /root/.ssh/socksd \
   -o AllowTcpForwarding=local \
   -o AllowUsers=socksproxy \
   -o PasswordAuthentication=no \
