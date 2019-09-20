@@ -1,72 +1,39 @@
 # socksd
 
-A Dockerized SSH daemon for [socksproxy](https://github.com/zbo14/socksproxy).
+An SSH daemon for [socksproxy](https://github.com/zbo14/socksproxy).
 
 ## Install
 
-Make sure you have [Docker](https://docs.docker.com/install/) installed.
-
-Then `git clone` the repo and `sh /path/to/socksd/install.sh`.
+Clone the repo and `sudo sh install.sh`.
 
 ## Usage
 
-### Build
-
-`$ socksd build`
-
-Build the Docker image for the daemon.
-
-### Initialize
-
-`$ socksd init`
-
-Create directories with the SSH keys and `authorized_keys` file.
-
-The directories will be mounted as volumes in the container when it starts.
-
-This command only needs to run once.
+`socksd` runs as a systemd service so you can use `systemctl` commands.
 
 ### Start
 
-`$ PORT= socksd start`
+`sudo systemctl start socksd`
 
-Start a Docker container running the daemon on the specified port.
+### Add public key
 
-You will be prompted to enter a password for user `socksproxy`.
-
-**Note:** proxies will still authenticate with their public keys.
-
-### Get the public key
-
-`$ socksd get-key`
-
-Print the daemon's public key.
-
-### Add a proxy
-
-`$ PUBKEY= socksd add-proxy`
-
-Add a proxy's public key to the aforementioned `authorized_keys` file.
-
-### Get proxies
-
-`$ socksd get-proxies`
-
-Print the contents of the `authorized_keys` file.
-
-### Remove a proxy
-
-`$ PUBKEY= socksd rm-proxy`
-
-Remove a proxy's public key from the `authorized_keys` file.
-
-**Note:** `PUBKEY` doesn't have to be the fully-qualified public key (e.g. it can just be the username).
+For `socksproxy` to successfully authenticate with `socksd`, you must add the client's public key to `/home/socksproxy/.ssh/authorized_keys`.
 
 ### Stop
 
-`$ socksd stop`
+`sudo systemctl stop socksd`
 
-Remove the Docker container and its volumes.
+### View logs
+
+`sudo journalctl -u socksd`
+
+### Config
+
+The config file `/etc/socksd/socksd.conf` contains the following:
+
+```sh
+## The port socksd listens on
+PORT=17896
+``````
 
 ## Contributing
 
