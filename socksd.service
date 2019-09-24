@@ -5,6 +5,7 @@ Description=socksd systemd service.
 Type=simple
 ExecStart=/bin/bash /usr/bin/socksd.sh
 EnvironmentFile=/etc/socksd/socksd.conf
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
