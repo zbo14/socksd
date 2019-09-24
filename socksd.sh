@@ -5,7 +5,7 @@
   -h /root/.ssh/socksd \
   -o AllowTcpForwarding=local \
   -o AllowUsers=socksproxy \
-  -o ClientAliveInterval=15 \
+  -o ClientAliveInterval=20 \
   -o PasswordAuthentication=no \
   -o PermitRootLogin=no \
   -o Protocol=2 \
